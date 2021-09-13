@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# react routing (template)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+a way to implement routes in a react web app. will keep this updated as i learn more about react.
 
-## Available Scripts
+modified from the tutorial [here](https://www.ryanjyost.com/react-routing/).
 
-In the project directory, you can run:
+## setup
 
-### `npm start`
+in an existing react app (or new app created by [create-react-app](https://github.com/facebook/create-react-app#readme)), install [react-router-dom](https://reactrouter.com/web/guides/quick-start):
+```
+npm install react-router-dom
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+wrap the root component `App` with the `BrowserRouter` component:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```javascript
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById('root')
+);
+```
 
-### `npm test`
+## setting up routes
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+create a file `routes.js`. an array called `ROUTES` will store paths and corresponding components. routes can be nested.
 
-### `npm run build`
+for each route in the array:
+- `path`: (string) path relative to the app path
+- `key`: (string) a unique identifier for this route
+- `exact`: (boolean) whether the path should be matched exactly
+- `component`: (Component) the component rendered when navigating to this path
+- `routes`: (array) list of subroutes
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+in `routes.js`: component `RouteWithSubRoutes` renders a route with nested subroutes.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+in `routes.js`: component `RenderRoutes` renders a `Switch` component with an array of `Route`s, using `RouteWithSubRoutes` component and the `ROUTES` array. `RenderRoutes` should be used as the component to handle arrays of nested subroutes.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## render the routes
 
-### `npm run eject`
+in the root component `App`, render the `RenderRoutes` component, using the `ROUTES` array as the prop `routes`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+additionally, create a separate component to render a navigation menu, also using `ROUTES`. as an example, the `Navigation` component will render an unordered list navigation, utilizing a similar nested structure.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```javascript
+function App() {
+  return (
+    <>
+      <Navigation routes={ROUTES} />
+      <RenderRoutes routes={ROUTES} />
+    </>
+  );
+}
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## resources
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+[React Router Documentation](https://reactrouter.com/web/guides/quick-start)
 
-## Learn More
+[React Router Architecture that's Simple, Scalable and Protected](https://www.ryanjyost.com/react-routing/)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[React Router Tutorial: Adding Navigation to your React App](https://www.educative.io/blog/react-router-tutorial)
